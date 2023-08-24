@@ -27,6 +27,7 @@ class myCLI:
                 #Exit program
                 break
             else:
+                #Baseline for the game
                 count -= 1
                 print("\nInvalid input, Please try again, tries left: {}".format(count))
                 if count == 0:
