@@ -1,5 +1,4 @@
 from sqlalchemy import create_engine
-
 class myCLI:
     def __init__(self):
         self.main()

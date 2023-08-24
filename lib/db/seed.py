@@ -3,7 +3,8 @@ from faker import Faker
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from random import randint
-
+import json
+from urllib.request import urlopen
 fake = Faker()
 
 engine = create_engine('sqlite:///lib/db/dictionary.db')
@@ -15,7 +16,13 @@ def create_user():
     session.commit()
 
 def create_dictionary():
-    dictionary = Dictionary(word=fake.word(), type=fake.word(), definition=fake.sentence())
+    word = fake.word()
+    api = "https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
+    response = urlopen(api.format(word=word))
+    data = json.loads(response.read())
+    type = data[0]['meanings'][0]['partOfSpeech']
+    definition = data[0]['meanings'][0]['definitions'][0]['definition']
+    dictionary = Dictionary(word=word, type=type, definition=definition)
     session.add(dictionary)
     session.commit()
 
