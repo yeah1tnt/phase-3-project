@@ -18,3 +18,7 @@
 ```
 
 3. Set up a simple layout for the ```cli.py``` with 3 options. Add, search and exit.
+
+4. Install Faker, set up alembic.ini and edit env.py.
+
+5. Set up models.py, with User, Dictionary and GameData, fix alembic.ini, and started on seed.py to generate data

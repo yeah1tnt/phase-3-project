@@ -1,4 +1,4 @@
-
+from sqlalchemy import create_engine
 
 class myCLI:
     def __init__(self):
@@ -35,4 +35,5 @@ class myCLI:
                     break
 
 if __name__ == '__main__':
+    engine = create_engine('sqlite:///db/dictionary.db')
     myCLI()
