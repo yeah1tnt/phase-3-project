@@ -21,4 +21,5 @@
 
 4. Install Faker, set up alembic.ini and edit env.py.
 
-5. Set up models.py, with User, Dictionary and GameData, fix alembic.ini, and started on seed.py to generate data
+5. Set up models.py, with User, Dictionary and GameData, fix alembic.ini, and started on seed.py to generate data. Use alembic to generate dictionary.db
+```alembic revision --autogenerate -m ""``` and ```alembic upgrade head```

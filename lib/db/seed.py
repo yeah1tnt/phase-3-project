@@ -1,11 +1,40 @@
-from models import (Dictionary, GameData)
+from models import (User, Dictionary, GameData)
 from faker import Faker
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session
 from random import randint
 
 fake = Faker()
 
-engine = create_engine('sqlite:///dictionary.db')
-Session = sessionmaker(bind=engine)
-session = Session()
+engine = create_engine('sqlite:///lib/db/dictionary.db')
+session = Session(engine, future = True)
+
+def create_user():
+    user = User(name=fake.name(), age=randint(1, 100), level=randint(1, 100))
+    session.add(user)
+    session.commit()
+
+def create_dictionary():
+    dictionary = Dictionary(word=fake.word(), type=fake.word(), definition=fake.sentence())
+    session.add(dictionary)
+    session.commit()
+
+def create_game_data():
+    game_data = GameData(user_id=fake.name(), game_session=fake.word(), high_score=randint(1, 100), total_score=randint(1, 100))
+    session.add(game_data)
+    session.commit()
+
+def delete_all():
+    session.query(User).delete()
+    session.query(Dictionary).delete()
+    session.query(GameData).delete()
+    session.commit()
+
+if __name__ == '__main__':
+    delete_all()
+    create_user()
+    create_dictionary()
+    create_game_data()
+    
+    session.close()
+    session.commit()
