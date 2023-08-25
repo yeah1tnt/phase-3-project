@@ -1,14 +1,15 @@
 from models import (User, Dictionary, GameData)
 from faker import Faker
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import sessionmaker
 from random import randint
 import json
 from urllib.request import urlopen
 fake = Faker()
 
 engine = create_engine('sqlite:///lib/db/dictionary.db')
-session = Session(engine, future = True)
+Session = sessionmaker(bind=engine)
+session = Session()
 
 def create_user():
     user = User(name=fake.name(), age=randint(1, 100), level=randint(1, 100))

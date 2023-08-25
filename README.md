@@ -27,3 +27,19 @@
 6 - test seed.py and data input. Test pulling definition from https://dictionaryapi.dev/ with a random word generated, the data pulled a json type. Pulling the first definition, but will need user input to pull noun, verb or adjective 
 
 source: https://stackoverflow.com/questions/12965203/how-to-get-json-from-webpage-into-python-script
+
+7 - re-structuring cli
+```
+|- Ask for username
+    |- Register username (if user/name isn't in db)
+    |- Access dictionary ()
+    |   |- List all word/definition
+    |   |- Add word manually
+    |       |- Choose adjective (return success message or fail message)
+    |   |- Add word randomly
+    |       |- Choose adjective (return success message or fail message)
+    |   |- Delete word
+    |       |- Enter word to delete
+    |   |- Search word
+    |- Play dictionary game
+```
