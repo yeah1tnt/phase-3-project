@@ -1,38 +1,51 @@
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from db.models import User, Dictionary, GameData
+from helpers import addUser_0
+import ipdb
 class myCLI:
     def __init__(self):
+        self.user_name = [user.name for user in session.query(User).all()]
+        self.word = [dict.word for dict in session.query(Dictionary).all()]
         self.main()
 
     def main(self):
-        count = 3
-        user_input = input("Enter a word: ")
-        print(f"\nThe word you entered is: {user_input}")
-        print(f"\nWhat do you want to do with this word?")
+        user_input = input("Enter your username: ")
+        if user_input.lower() in self.user_name:
+            print(f"\nWelcome, {user_input}!")
+        else:
+            addUser_0(session, user_input)
 
-        while user_input != "exit":
-            print("\nEnter 'add' to add the word to the dictionary")
-            print("Enter 'search' to search the dictionary")
-            print("Enter 'exit' to exit the program")
-            user_choice = input("Enter your choice: ")
-            if user_choice.lower() == "add":
-                print("\nWord added to the dictionary")
-                #Run function to add word
-                break
-            elif user_choice.lower() == "search":
-                print("\nWord searched in the dictionary")
-                #Run function to search word
-            elif user_choice.lower() == "exit":
-                print("\nProgram exited")
-                #Exit program
-                break
+        while user_input:
+            print("\n       MAIN MENU")
+            print("\nEnter a to access user settings")
+            print("Enter b to access the dictionary")
+            print("Enter c to start dictionary game")
+            print("Enter e to exit")
+            user_choice = input("\nEnter your choice: ")
+            if user_choice.lower() == "a":
+                myCLI.userAccess_01(self)
+            elif user_choice.lower() == "b":
+                myCLI.wordAccess_02(self)
+            elif user_choice.lower() == "c":
+                myCLI.gameAccess_03(self)
+            elif user_choice.lower() == "e":
+                exit()
             else:
-                #Baseline for the game
-                count -= 1
-                print("\nInvalid input, Please try again, tries left: {}".format(count))
-                if count == 0:
-                    print("\nToo many invalid inputs. Terminating program")
-                    break
+                print("\nInvalid input. Please try again")
+
+    def userAccess_01(self):
+        print("\n       USER SETTINGS")
+        exit()
+    def wordAccess_02(self):
+        print("\n       DICTIONARY SETTINGS")
+        exit()
+    def gameAccess_03(self):
+        print("\n       GAME MENU")
+        exit()
 
 if __name__ == '__main__':
-    engine = create_engine('sqlite:///db/dictionary.db')
+    engine = create_engine('sqlite:///lib/db/dictionary.db')
+    Session = sessionmaker(bind=engine)
+    session = Session()
     myCLI()

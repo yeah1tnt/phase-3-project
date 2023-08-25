@@ -31,7 +31,8 @@ source: https://stackoverflow.com/questions/12965203/how-to-get-json-from-webpag
 7 - re-structuring cli
 ```
 |- Ask for username
-    |- Register username (if user/name isn't in db)
+    |               (|- Register username (if user/name isn't in db))
+    |- Access user data
     |- Access dictionary ()
     |   |- List all word/definition
     |   |- Add word manually
@@ -43,3 +44,5 @@ source: https://stackoverflow.com/questions/12965203/how-to-get-json-from-webpag
     |   |- Search word
     |- Play dictionary game
 ```
+
+8 - installed ipdb for troubleshooting, restructuring main menu and option.
