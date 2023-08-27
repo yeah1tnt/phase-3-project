@@ -1,11 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.models import User, Dictionary, GameData
-from helpers import addUser_0
+from helpers import addUser_0, userAccess_01a
 import ipdb
 class myCLI:
     def __init__(self):
         self.user_name = [user.name for user in session.query(User).all()]
+        self.user_level = [user.level for user in session.query(User).all()]
         self.word = [dict.word for dict in session.query(Dictionary).all()]
         self.main()
 
@@ -35,8 +36,21 @@ class myCLI:
                 print("\nInvalid input. Please try again")
 
     def userAccess_01(self):
-        print("\n       USER SETTINGS")
-        exit()
+        while(1):
+            print("\n       USER SETTINGS")
+            print("\nEnter a to show all users and their scores")
+            print("Enter b to reset your scores")
+            print("Enter e to exit")
+            user_choice = input("\nEnter your choice: ")
+            if user_choice.lower() == "a":
+                userAccess_01a(session)
+            elif user_choice.lower() == "b":
+                exit()
+            elif user_choice.lower() == "e":
+                exit()
+            else:
+                print("\nInvalid input. Please try again")
+                
     def wordAccess_02(self):
         print("\n       DICTIONARY SETTINGS")
         exit()

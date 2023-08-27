@@ -28,7 +28,7 @@ def create_dictionary():
     session.commit()
 
 def create_game_data():
-    game_data = GameData(user_id=fake.name(), game_session=fake.word(), high_score=randint(1, 100), total_score=randint(1, 100))
+    game_data = GameData(user_id=randint(1, 100), game_session=randint(1, 100), high_score=randint(1, 100), total_score=randint(1, 100))
     session.add(game_data)
     session.commit()
 
@@ -39,7 +39,7 @@ def delete_all():
     session.commit()
 
 if __name__ == '__main__':
-    delete_all()
+    #delete_all()
     create_user()
     create_dictionary()
     create_game_data()

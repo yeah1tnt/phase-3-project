@@ -45,4 +45,6 @@ source: https://stackoverflow.com/questions/12965203/how-to-get-json-from-webpag
     |- Play dictionary game
 ```
 
-8 - installed ipdb for troubleshooting, restructuring main menu and option.
+8 - installed ipdb for troubleshooting, restructuring main menu and option. Added function to register new user
+
+9 - Have to reset alembic due to error, redo revision and upgrade head, foreign key for user_id and relationship
