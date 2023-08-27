@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.models import User, Dictionary, GameData
-from helpers import addUser_0, userAccess_01a, userAccess_01b, wordAccess_02a, wordAccess_02b, wordAccess_02c
+from helpers import addUser_0, userAccess_01a, userAccess_01b, wordAccess_02a, wordAccess_02b, wordAccess_02c, wordAccess_02d
 import ipdb
 class myCLI:
     def __init__(self):
@@ -61,8 +61,9 @@ class myCLI:
             print("\nEnter a to show all words and their definitions")
             print("Enter b to add a new word and definition")
             print("Enter c to generate a random word with its definition")
-            print("Enter d to go back to main menu")
-            print("Enter e to exit")
+            print("Enter d to delete a word")
+            print("Enter e to go back to main menu")
+            print("Enter f to exit")
             user_choice = input("\nEnter your choice: ")
             if user_choice.lower() == "a":
                 wordAccess_02a(session)
@@ -71,8 +72,10 @@ class myCLI:
             elif user_choice.lower() == "c":
                 wordAccess_02c(session, user_input)
             elif user_choice.lower() == "d":
-                myCLI()
+                wordAccess_02d(session, user_input)
             elif user_choice.lower() == "e":
+                myCLI()
+            elif user_choice.lower() == "f":
                 print("\nExiting program")
                 exit()
             else:

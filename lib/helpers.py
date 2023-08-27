@@ -132,3 +132,13 @@ def wordAccess_02c(session, user_input):
             return
         else:
             type = choice(typechoice)
+
+def wordAccess_02d(session, user_input):
+    print("\nWord to delete: ")
+    word = input("\nEnter your word: ")
+    if session.query(Dictionary).filter(Dictionary.word == word).first() == None:
+        print("\nWord does not exist")
+        return
+    session.query(Dictionary).filter(Dictionary.word == word).delete()
+    session.commit()
+    print("\nWord succesfully deleted")
