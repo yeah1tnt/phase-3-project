@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.models import User, Dictionary, GameData
-from helpers import addUser_0, userAccess_01a
+from helpers import addUser_0, userAccess_01a, userAccess_01b, wordAccess_02a
 import ipdb
 class myCLI:
     def __init__(self):
@@ -25,35 +25,47 @@ class myCLI:
             print("Enter e to exit")
             user_choice = input("\nEnter your choice: ")
             if user_choice.lower() == "a":
-                myCLI.userAccess_01(self)
+                myCLI.userAccess_01(self, user_input)
             elif user_choice.lower() == "b":
-                myCLI.wordAccess_02(self)
+                myCLI.wordAccess_02(self, user_input)
             elif user_choice.lower() == "c":
-                myCLI.gameAccess_03(self)
+                myCLI.gameAccess_03(self, user_input)
             elif user_choice.lower() == "e":
                 exit()
             else:
                 print("\nInvalid input. Please try again")
 
-    def userAccess_01(self):
-        while(1):
+    def userAccess_01(self, user_input):
+        while(user_input):
             print("\n       USER SETTINGS")
             print("\nEnter a to show all users and their scores")
             print("Enter b to reset your scores")
+            print("Enter c to go back to main menu")
             print("Enter e to exit")
             user_choice = input("\nEnter your choice: ")
             if user_choice.lower() == "a":
                 userAccess_01a(session)
             elif user_choice.lower() == "b":
-                exit()
+                userAccess_01b(session, user_input)
+            elif user_choice.lower() == "c":
+                myCLI()
             elif user_choice.lower() == "e":
+                print("\nExiting program")
                 exit()
             else:
                 print("\nInvalid input. Please try again")
                 
-    def wordAccess_02(self):
-        print("\n       DICTIONARY SETTINGS")
-        exit()
+    def wordAccess_02(self, user_input):
+        while(user_input):
+            print("\n       DICTIONARY SETTINGS")
+            print("\nEnter a to show all words and their definitions")
+            print("Enter b to add a new word and definition")
+            print("Enter c to generate a random word with its definition")
+            print("Enter d to go back to main menu")
+            print("Enter e to exit")
+            user_choice = input("\nEnter your choice: ")
+            if user_choice.lower() == "a":
+                wordAccess_02a(session)
     def gameAccess_03(self):
         print("\n       GAME MENU")
         exit()

@@ -39,10 +39,10 @@ def delete_all():
     session.commit()
 
 if __name__ == '__main__':
-    #delete_all()
-    create_user()
+    # delete_all()
+    # create_user()
     create_dictionary()
-    create_game_data()
+    # create_game_data()
     
     session.close()
     session.commit()

@@ -33,6 +33,8 @@ source: https://stackoverflow.com/questions/12965203/how-to-get-json-from-webpag
 |- Ask for username
     |               (|- Register username (if user/name isn't in db))
     |- Access user data
+        |= Show all users and their score
+        |- Reset current user's score
     |- Access dictionary ()
     |   |- List all word/definition
     |   |- Add word manually
@@ -48,3 +50,5 @@ source: https://stackoverflow.com/questions/12965203/how-to-get-json-from-webpag
 8 - installed ipdb for troubleshooting, restructuring main menu and option. Added function to register new user
 
 9 - Have to reset alembic due to error, redo revision and upgrade head, foreign key for user_id and relationship
+
+10 - refined show all user and score and reset user's score
