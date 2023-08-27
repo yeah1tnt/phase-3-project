@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.models import User, Dictionary, GameData
-from helpers import addUser_0, userAccess_01a, userAccess_01b, wordAccess_02a
+from helpers import addUser_0, userAccess_01a, userAccess_01b, wordAccess_02a, wordAccess_02b, wordAccess_02c
 import ipdb
 class myCLI:
     def __init__(self):
@@ -66,6 +66,17 @@ class myCLI:
             user_choice = input("\nEnter your choice: ")
             if user_choice.lower() == "a":
                 wordAccess_02a(session)
+            elif user_choice.lower() == "b":
+                wordAccess_02b(session, user_input)
+            elif user_choice.lower() == "c":
+                wordAccess_02c(session, user_input)
+            elif user_choice.lower() == "d":
+                myCLI()
+            elif user_choice.lower() == "e":
+                print("\nExiting program")
+                exit()
+            else:
+                print("\nInvalid input. Please try again")
     def gameAccess_03(self):
         print("\n       GAME MENU")
         exit()

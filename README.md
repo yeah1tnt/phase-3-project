@@ -52,3 +52,7 @@ source: https://stackoverflow.com/questions/12965203/how-to-get-json-from-webpag
 9 - Have to reset alembic due to error, redo revision and upgrade head, foreign key for user_id and relationship
 
 10 - refined show all user and score and reset user's score
+
+11 - dictionary, showing word and adding word with choice of what part of speech it will be. 
+
+12 - generate a random word and find its definition based on random chance of a part of speech. Force the function to return a value if it did not find any the first time based on the word generated.
