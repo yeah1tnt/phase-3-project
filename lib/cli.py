@@ -1,7 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.models import User, Dictionary, GameData
-from helpers import addUser_0, userAccess_01a, userAccess_01b, wordAccess_02a, wordAccess_02b, wordAccess_02c, wordAccess_02d
+from helpers import (addUser_0, 
+                     userAccess_01a, userAccess_01b, 
+                     wordAccess_02a, wordAccess_02b, wordAccess_02c, wordAccess_02d,
+                     gameAccess_03a, gameAccess_03b, gameAccess_03c, gameAccess_03d)
+                     
 import ipdb
 class myCLI:
     def __init__(self):
@@ -12,7 +16,8 @@ class myCLI:
 
     def main(self):
         user_input = input("Enter your username: ")
-        if user_input.lower() in self.user_name:
+        user_input = user_input.lower()
+        if user_input in self.user_name:
             print(f"\nWelcome, {user_input}!")
         else:
             addUser_0(session, user_input)
@@ -80,9 +85,31 @@ class myCLI:
                 exit()
             else:
                 print("\nInvalid input. Please try again")
-    def gameAccess_03(self):
-        print("\n       GAME MENU")
-        exit()
+    def gameAccess_03(self, user_input):
+        while(user_input):
+            print("\n       GAME MENU")
+            print("\nEnter a show high score")
+            print("Enter b to see your score")
+            print("Enter c to start game (Guess Definition)")
+            print("Enter d to start game (Guess Word)")
+            print("Enter e to go back to main menu")
+            print("Enter f to exit")
+            user_choice = input("\nEnter your choice: ")
+            if user_choice.lower() == "a":
+                gameAccess_03a(session)
+            elif user_choice.lower() == "b":
+                gameAccess_03b(session, user_input)
+            elif user_choice.lower() == "c":
+                gameAccess_03c(session, user_input)
+            elif user_choice.lower() == "d":
+                gameAccess_03d(session, user_input)
+            elif user_choice.lower() == "e":
+                myCLI()
+            elif user_choice.lower() == "f":
+                print("\nExiting program")
+                exit()
+            else:
+                print("\nInvalid input. Please try again")
 
 if __name__ == '__main__':
     engine = create_engine('sqlite:///lib/db/dictionary.db')

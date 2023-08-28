@@ -3,7 +3,8 @@ import json
 from urllib.request import urlopen
 from faker import Faker
 from random import choice
-
+import random
+import ipdb
 fake = Faker()
 
 ##### Add user if user aren't in system
@@ -58,7 +59,7 @@ def userAccess_01b(session, user_input):
         user_choice = input("\nEnter your choice: ")
         if user_choice.lower() == "yes":
             session.query(GameData).filter(GameData.user_id == user.id).update({GameData.total_score: 0})
-            session.query(GameData).filter(GameData.user_id == user.id).update({GameData.high_score: 0})
+            session.query(GameData).filter(GameData.user_id == user.id).update({GameData.high_score: 10})
             session.commit()
             exit()
         elif user_choice.lower() == "no":
@@ -142,3 +143,72 @@ def wordAccess_02d(session, user_input):
     session.query(Dictionary).filter(Dictionary.word == word).delete()
     session.commit()
     print("\nWord succesfully deleted")
+
+
+##### Game settings functions
+
+def gameAccess_03a(session):
+    highest_score = session.query(GameData).order_by(GameData.high_score.desc()).first()
+    user = session.query(User).filter(User.id == highest_score.user_id).first()
+    print(f"\nThe high score is: {user.name} with a score of: {highest_score.high_score}")
+
+def gameAccess_03b(session, user_input):
+    user = session.query(User).filter(User.name == user_input).first()
+    current = session.query(GameData).filter(GameData.user_id == user.id).first()
+    print(f"\nYour current score is: {current.total_score}")
+    print(f"Your high score is: {current.high_score}")
+
+def gameAccess_03c(session, user_input):
+    count = 3
+    print("     Game Start")
+    while(user_input):
+        
+        answer, answer_def, answer_choice = random_word(session)
+        user = session.query(User).filter(User.name == user_input).first()
+        game = session.query(GameData).filter(GameData.user_id == user.id).first()
+        if(count == 0):
+            print("\nGame Over")
+            if(game.high_score < game.game_session):
+                game.high_score = game.game_session
+            session.commit()
+            game.total_score = game.game_session + game.total_score
+            game.game_session = 0
+            session.commit()
+            return
+        while(count != 0):
+            print(f"\nYou have {count} attempts left")
+            print(f"Your current score is: {game.game_session}")
+            print(f"\nThe word is {answer}")
+            print("What is the definition of this word?\n")
+            for i in range(4):
+                print(f"{i+1}: {answer_choice[i]}")
+            user_choice = input("\nEnter your choice from 1 to 4: ")
+            user_choice = int(user_choice) - 1
+            if answer_choice[user_choice] == answer_def:
+                print("\nCorrect!")
+                game.game_session += 1
+                break
+            else:
+                print("\nIncorrect")
+                count -= 1
+                break
+    
+
+
+        
+def gameAccess_03d(session, user_input):
+    pass
+
+def random_word(session):
+    dict = [dict.word for dict in session.query(Dictionary).all()]
+    answer = choice(dict)
+    answer_def = session.query(Dictionary).filter(Dictionary.word == answer).first().definition
+    answer_choice = [answer_def]
+    while len(answer_choice) < 4:
+        extra = choice(dict)
+        extra_def = session.query(Dictionary).filter(Dictionary.word == extra).first().definition
+        if extra_def not in answer_choice:
+            answer_choice.append(extra_def)
+    random.shuffle(answer_choice)
+
+    return answer, answer_def, answer_choice, 
