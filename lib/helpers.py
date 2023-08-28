@@ -235,6 +235,7 @@ def gameAccess_03d(session, user_input):
             else:
                 print("\nInvalid input, must be number in range. Please try again")
 
+##### Random word/definition generator
 def random_word(session):
     dict = [dict.word for dict in session.query(Dictionary).all()]
     answer = choice(dict)
