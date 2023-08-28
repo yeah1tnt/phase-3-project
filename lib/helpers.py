@@ -115,7 +115,7 @@ def wordAccess_02c(session, user_input):
     api = "https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
     response = urlopen(api.format(word=word))
     data = json.loads(response.read())
-    typechoice = ["noun", "verb", "adjective"]
+    typechoice = ["noun", "verb", "adjective", "adverb"]
     type = choice(typechoice)
     while(user_input):
         for speech in data:
@@ -150,7 +150,7 @@ def wordAccess_02d(session, user_input):
 def gameAccess_03a(session):
     highest_score = session.query(GameData).order_by(GameData.high_score.desc()).first()
     user = session.query(User).filter(User.id == highest_score.user_id).first()
-    print(f"\nThe high score is: {user.name} with a score of: {highest_score.high_score}")
+    print(f"\nThe user {user.name} with a score of: {highest_score.high_score} got the highest score")
 
 def gameAccess_03b(session, user_input):
     user = session.query(User).filter(User.name == user_input).first()
@@ -183,21 +183,57 @@ def gameAccess_03c(session, user_input):
             for i in range(4):
                 print(f"{i+1}: {answer_choice[i]}")
             user_choice = input("\nEnter your choice from 1 to 4: ")
-            user_choice = int(user_choice) - 1
-            if answer_choice[user_choice] == answer_def:
-                print("\nCorrect!")
-                game.game_session += 1
-                break
+            if user_choice.isdigit() and int(user_choice) in range(1, 5):
+                user_choice = int(user_choice) - 1
+                if answer_choice[user_choice] == answer_def:
+                    print("\nCorrect!")
+                    game.game_session += 1
+                    break
+                else:
+                    print("\nIncorrect")
+                    count -= 1
+                    break
             else:
-                print("\nIncorrect")
-                count -= 1
-                break
-    
+                print("\nInvalid input, must be number in range. Please try again")
 
 
         
 def gameAccess_03d(session, user_input):
-    pass
+    count = 3
+    print("     Game Start")
+    while(user_input):
+        answer, answer_def, answer_choice = random_def(session)
+        user = session.query(User).filter(User.name == user_input).first()
+        game = session.query(GameData).filter(GameData.user_id == user.id).first()
+        if(count == 0):
+            print("\nGame Over")
+            if(game.high_score < game.game_session):
+                game.high_score = game.game_session
+            session.commit()
+            game.total_score = game.game_session + game.total_score
+            game.game_session = 0
+            session.commit()
+            return
+        while(count != 0):
+            print(f"\nYou have {count} attempts left")
+            print(f"Your current score is: {game.game_session}")
+            print(f"\nThe definition is {answer}")
+            print("What is the word for this definition?\n")
+            for i in range(4):
+                print(f"{i+1}: {answer_choice[i]}")
+            user_choice = input("\nEnter your choice from 1 to 4: ")
+            if user_choice.isdigit() and int(user_choice) in range(1, 5):
+                user_choice = int(user_choice) - 1
+                if answer_choice[user_choice] == answer_def:
+                    print("\nCorrect!")
+                    game.game_session += 1
+                    break
+                else:
+                    print("\nIncorrect")
+                    count -= 1
+                    break
+            else:
+                print("\nInvalid input, must be number in range. Please try again")
 
 def random_word(session):
     dict = [dict.word for dict in session.query(Dictionary).all()]
@@ -211,4 +247,18 @@ def random_word(session):
             answer_choice.append(extra_def)
     random.shuffle(answer_choice)
 
-    return answer, answer_def, answer_choice, 
+    return answer, answer_def, answer_choice
+
+def random_def(session):
+    dict = [dict.definition for dict in session.query(Dictionary).all()]
+    answer = choice(dict)
+    answer_def = session.query(Dictionary).filter(Dictionary.definition == answer).first().word
+    answer_choice = [answer_def]
+    while len(answer_choice) < 4:
+        extra = choice(dict)
+        extra_def = session.query(Dictionary).filter(Dictionary.definition == extra).first().word
+        if extra_def not in answer_choice:
+            answer_choice.append(extra_def)
+    random.shuffle(answer_choice)
+
+    return answer, answer_def, answer_choice
