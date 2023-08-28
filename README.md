@@ -9,11 +9,11 @@ The user can use the generated word (either by manual input or automation) to pl
 
 ## Installtion
 
-You will need to run 
+You will need to put the command below project's terminal to install this project's perspective's libraries
 ```
 pipenv install
 ```
-to install this project's perspective's libraries
+
 
 If the list of word in the library/user/score are not to your liking, go to lib/db/seed.py and uncomment the specific line, delete_all() will delete everything in the database, in the delete_all() function, you can comment out the user/gamedata/dictionary if you want to keep a certain database as well.
 ```python
@@ -32,6 +32,11 @@ if __name__ == '__main__':
     
     session.close()
     session.commit()
+```
+
+To run this project, you need to run cly.py file in the lib folder. 
+```
+./lib/cli.py
 ```
 
 
